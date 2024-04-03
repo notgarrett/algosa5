@@ -1,4 +1,5 @@
 #include "headers/graph.hpp"
+#include <fstream>
 #include <vector>
 
 Matrix::Matrix() {}
@@ -28,6 +29,8 @@ void MatrixGraph::add_node(std::string node_name) {
 }
 
 MatrixGraph::MatrixGraph(bool directed) { this->directed = directed; }
+
+void MatrixGraph::generate(std::ifstream file) {}
 
 int MatrixGraph::get_index(std::string node_name) {
 
