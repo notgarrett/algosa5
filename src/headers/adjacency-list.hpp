@@ -1,10 +1,20 @@
+/**
+ * @file adjacency-list.hpp
+ * @author  Lilith Moon
+ * @brief
+ * @version 0.1
+ * @date 2024-03-31
+ *
+ * @copyright Copyright (c) 2024
+ *
+ */
+
 #pragma once
-
 #include <vector>
-
 using namespace std;
 
-// Template 
+// * Forward Declarations ============
+
 template <typename keyType>
 class Vertex;
 
@@ -14,41 +24,79 @@ class Edge;
 template <typename keyType>
 class Adj_List_Graph;
 
+// * Vertex Definition ===============
 
 template <typename keyType>
-class Vertex{
+class Vertex
+{
   keyType key;
-  pair<int,int> coords;
+  pair<int, int> coords;
   vector<Edge<keyType>> *edges;
 
-
 public:
-  Vertex(keyType vertKey);
-  Vertex(keyType vertKey, int x, int y);
-  float distanceFrom(Vertex<keyType> other);
+  // * Constructors
+  Vertex() : key(), coords(), edges(new vector<Edge<keyType>>()) {}
+  Vertex(keyType vertKey) : key(vertKey), edges(new vector<Edge<keyType>>()), coords({0, 0}) {}
+  Vertex(keyType vertKey, int x, int y) : key(vertKey), coords(std::make_pair(x, y)), edges(new std::vector<Edge<keyType>>()) {}
+  Vertex(const Vertex &other) : key(other.key), coords(other.coords), edges(new std::vector<Edge<keyType>>(*(other.edges))) {}
+
+  // * Functions
+  void addEdge(const Edge<keyType> &edge) const;
+  float distanceFrom(const Vertex<keyType> &other) const;
+  void PrintVertex() const;
+
+  // * Getters
+  keyType getKey() const { return key; };
+  const vector<Edge<keyType>> &getEdges() const { return *edges; };
+
+
+  bool operator==(const Vertex<keyType> &other) const
+  {
+    return key == other.key && coords == other.coords;
+  }
 };
 
+// * Edge Definition ==================
 template <typename keyType>
-class Edge{
-  Vertex<keyType> src;
-  Vertex<keyType> dest;
+class Edge
+{
+  const Vertex<keyType> *src;
+  const Vertex<keyType> *dest;
   float weight;
 
 public:
-  Edge(Vertex<keyType> srcIn, Vertex<keyType> destIn);
-  Edge(Vertex<keyType> srcIn, Vertex<keyType> destIn, float weightIn);
+  // * Constructors
+  Edge(const Vertex<keyType> *srcIn, const Vertex<keyType> *destIn) : src(srcIn), dest(destIn), weight(srcIn->distanceFrom(*destIn)) {}
+  Edge(const Vertex<keyType> *srcIn, const Vertex<keyType> *destIn, float weightIn) : src(srcIn), dest(destIn), weight(weightIn) {}
+
+  // * Functions
+  void printEdge() const;
+
+  // * Getters
+  float getWeight() const { return weight; }
+  const Vertex<keyType> *getSource() const { return src; }
+  const Vertex<keyType> *getDestination() const { return dest; }
 };
 
+// * Adjacency List Graph Definition ==============
 template <typename keyType>
-class Adj_List_Graph {
-  vector<Vertex<keyType>> *adjList;
+class Adj_List_Graph
+{
+  int numVertices = -1;
+  int numEdges = -1;
   bool isDirected = false;
+  vector<Vertex<keyType>> *adjList = new vector<Vertex<keyType>>();
 
 public:
-  Adj_List_Graph();
-  void setIsDirected(bool isDirectedIn);
-  void addEdge(Vertex<keyType> srcIn, Vertex<keyType> destIn, float weightIn = 0);
+  // * Constructor
+  Adj_List_Graph(string file);
+
+  // * Functions
+  void addEdge(keyType srcKey, keyType destKey, float weightIn = 0);
+  void addVertex(Vertex<keyType> vertexIn);
   void PrintGraph();
+  void dijkstra(keyType srcKey, keyType destKey);
+
+  // * Getters
+  const Vertex<keyType> *getVertex(keyType vertexKey) const;
 };
-
-

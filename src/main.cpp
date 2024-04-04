@@ -1,49 +1,21 @@
-#include "headers/adjacency-list.hpp"
-#include <fstream>
-#include <iostream>
-#include <sstream>
 
-template <typename keyType> void parseFileToAdjList(string file) {
-  std::ifstream inputFile(file);
-  if (!inputFile.is_open()) {
-    std::cerr << "Failed to open file: " << file << std::endl;
-    return;
-  }
+#include "adjacency-list.cpp"
 
-  std::string line;
-  int rowCount = 0;
-  Adj_List_Graph<keyType> newGraph;
-  while (std::getline(inputFile, line)) {
-    ++rowCount;
-    std::istringstream iss(line);
-    std::string token;
-    if (rowCount == 1 || rowCount == 2) {
-      // Process first two rows differently
-      if (rowCount == 1) {
-        if (line == "directed")
-          newGraph.setIsDirected(true);
-      } else {
-        while (iss >> token) {
-          // Process each token in the line here
-          std::cout << "Token: " << token << std::endl;
-        }
-      }
+int main()
+{
+  Adj_List_Graph<int> adjGraph1("../include/input-graph.txt");
+  adjGraph1.dijkstra(3, 1);
+  std::cout << "PRINTING GRAPH 1" << std::endl;
+  adjGraph1.PrintGraph();
 
-      std::cout << "Header " << rowCount << ": " << line << std::endl;
-    } else {
-      // Process other rows
-      // For example, you can parse the line using std::istringstream
-      while (iss >> token) {
-        // Process each token in the line here
-        std::cout << "Token: " << token << std::endl;
-      }
-    }
-  }
+  printf("\n");
 
-  inputFile.close();
-}
+  Adj_List_Graph<char> adjGraph2("../include/canada.txt");
+  adjGraph2.dijkstra('t', 't');
+  adjGraph2.dijkstra('t', 'm');
+  adjGraph2.dijkstra('e', 't');
 
-int main() {
-  parseFileToAdjList<int>("../include/input-graph.txt");
+  std::cout << "PRINTING GRAPH 2" << std::endl;
+  adjGraph2.PrintGraph();
   return 0;
 }
