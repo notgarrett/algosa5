@@ -18,7 +18,7 @@
 #include <unordered_map>
 #include "headers/adjacency-list.hpp"
 
-// * Helper Function =============
+// * Helper Functions =============
 /**
  * @brief Helper function to convert a string to the correct keyTyppe
  *
@@ -80,7 +80,8 @@ void Vertex<keyType>::PrintVertex() const
 }
 
 template <typename keyType>
-void Vertex<keyType>::PrintVertexWithEdges() const{
+void Vertex<keyType>::PrintVertexWithEdges() const
+{
   PrintVertex();
   // Print edges
   for (const Edge<keyType> &edge : *edges)
@@ -106,10 +107,10 @@ void Edge<keyType>::printEdge() const
 // * Adjacency List Graph Definitions ============
 /**
  * @brief Attempts to retrieve a vertex reference via key
- * 
- * @tparam keyType 
- * @param vertexKey 
- * @return const Vertex<keyType>* 
+ *
+ * @tparam keyType
+ * @param vertexKey
+ * @return const Vertex<keyType>*
  */
 template <typename keyType>
 const Vertex<keyType> *Adj_List_Graph<keyType>::getVertex(keyType vertexKey) const
@@ -122,7 +123,6 @@ const Vertex<keyType> *Adj_List_Graph<keyType>::getVertex(keyType vertexKey) con
   std::cout << "Vertex: " << vertexKey << " Not in graph." << std::endl;
   return nullptr;
 }
-
 
 /**
  * @brief Adds edge between 2 vertices so long as both exist in graph
@@ -192,7 +192,6 @@ void Adj_List_Graph<keyType>::PrintGraph()
   std::cout << "<==================================================================>" << std::endl;
 }
 
-
 template <typename keyType>
 void Adj_List_Graph<keyType>::PrintVertices()
 {
@@ -212,8 +211,6 @@ void Adj_List_Graph<keyType>::PrintVertexKeys()
     std::cout << vertex.getKey() << ", ";
   }
 }
-
-
 
 /**
  * @brief Parse a file into a graph
@@ -296,7 +293,7 @@ bool Adj_List_Graph<keyType>::parseFile(string file)
         }
         // * Create and add new Vertex
         Vertex<keyType> newVertex;
-        if(x && y)
+        if (x && y)
           newVertex = Vertex<keyType>(key, x, y);
         else
           newVertex = Vertex<keyType>(key);
@@ -383,6 +380,7 @@ bool Adj_List_Graph<keyType>::parseFile(string file)
   return true;
 }
 
+
 /**
  * @brief Find shorted path between 2 vertices
  *
@@ -457,3 +455,4 @@ void Adj_List_Graph<keyType>::dijkstra(keyType srcKey, keyType destKey)
     std::cout << *it << " ";
   std::cout << "with cost " << dist[destKey] << std::endl;
 }
+
