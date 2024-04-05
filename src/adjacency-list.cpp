@@ -77,7 +77,11 @@ void Vertex<keyType>::PrintVertex() const
 {
   // Print vertex information
   std::cout << "Vertex with key: " << key << " at coordinates (" << coords.first << ", " << coords.second << ")" << std::endl;
+}
 
+template <typename keyType>
+void Vertex<keyType>::PrintVertexWithEdges() const{
+  PrintVertex();
   // Print edges
   for (const Edge<keyType> &edge : *edges)
   {
@@ -188,21 +192,44 @@ void Adj_List_Graph<keyType>::PrintGraph()
   std::cout << "<==================================================================>" << std::endl;
 }
 
+
+template <typename keyType>
+void Adj_List_Graph<keyType>::PrintVertices()
+{
+  // Print just vertices
+  for (const Vertex<keyType> &vertex : *adjList)
+  {
+    vertex.PrintVertex();
+  }
+}
+
+template <typename keyType>
+void Adj_List_Graph<keyType>::PrintVertexKeys()
+{
+  // Print vertex keys only
+  for (const Vertex<keyType> &vertex : *adjList)
+  {
+    std::cout << vertex.getKey() << ", ";
+  }
+}
+
+
+
 /**
- * @brief Construct a new Adj_List_Graph<keyType>::Adj_List_Graph object
+ * @brief Parse a file into a graph
  *
  * @tparam keyType
  * @param file data file
  */
 template <typename keyType>
-Adj_List_Graph<keyType>::Adj_List_Graph(string file)
+bool Adj_List_Graph<keyType>::parseFile(string file)
 {
   std::ifstream inputFile(file);
 
   if (!inputFile.is_open())
   { // * File not found
     std::cerr << "Failed to open file: " << file << std::endl;
-    return;
+    return false;
   }
 
   std::string line;
@@ -262,6 +289,7 @@ Adj_List_Graph<keyType>::Adj_List_Graph(string file)
 
           default:
             std::cout << "Ayyo how did we get here? Failed to make vertex. colCount: " << colCount << " token: " << token << std::endl;
+            return false;
             break;
           }
           colCount++;
@@ -300,6 +328,7 @@ Adj_List_Graph<keyType>::Adj_List_Graph(string file)
             break;
           default:
             std::cout << "Ayyo how did we get here? Failed to make edge. colCount: " << colCount << " token: " << token << std::endl;
+            return false;
             break;
           }
           colCount++;
@@ -350,6 +379,8 @@ Adj_List_Graph<keyType>::Adj_List_Graph(string file)
   }
 
   inputFile.close();
+  graphIsLoaded = true;
+  return true;
 }
 
 /**

@@ -44,6 +44,7 @@ public:
   void addEdge(const Edge<keyType> &edge) const;
   float distanceFrom(const Vertex<keyType> &other) const;
   void PrintVertex() const;
+  void PrintVertexWithEdges() const;
 
   // * Getters
   keyType getKey() const { return key; };
@@ -85,18 +86,24 @@ class Adj_List_Graph
   int numVertices = -1;
   int numEdges = -1;
   bool isDirected = false;
+  bool graphIsLoaded = false;
   vector<Vertex<keyType>> *adjList = new vector<Vertex<keyType>>();
 
 public:
   // * Constructor
-  Adj_List_Graph(string file);
+  Adj_List_Graph(){};
+  Adj_List_Graph(string file) {graphIsLoaded = parseFile(file);};
 
   // * Functions
+  bool parseFile(string file);
   void addEdge(keyType srcKey, keyType destKey, float weightIn = 0);
   void addVertex(Vertex<keyType> vertexIn);
   void PrintGraph();
+  void PrintVertices();
+  void PrintVertexKeys();
   void dijkstra(keyType srcKey, keyType destKey);
 
   // * Getters
   const Vertex<keyType> *getVertex(keyType vertexKey) const;
+  bool isGraphLoaded() {return graphIsLoaded;};
 };
