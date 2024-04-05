@@ -267,7 +267,11 @@ Adj_List_Graph<keyType>::Adj_List_Graph(string file)
           colCount++;
         }
         // * Create and add new Vertex
-        Vertex<keyType> newVertex(key, x, y);
+        Vertex<keyType> newVertex;
+        if(x && y)
+          newVertex = Vertex<keyType>(key, x, y);
+        else
+          newVertex = Vertex<keyType>(key);
         adjList->push_back(newVertex);
       }
       else if (rowCount <= numVertices + numEdges + 2)
