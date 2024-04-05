@@ -219,8 +219,7 @@ Adj_List_Graph<keyType>::Adj_List_Graph(string file)
     { // * Process first two rows differently
       if (rowCount == 1)
       { // * Row 1, read if directed
-        if (line == "directed")
-          isDirected = true;
+        isDirected = (line == "directed");
       }
       else
       { // * Row 2, get number of vertices and edges
