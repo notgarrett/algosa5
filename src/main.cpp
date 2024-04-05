@@ -36,7 +36,7 @@ int main()
       }
 >>>>>>> 2fa214d (time for merge..)
 
-  printf("\n");
+  printf("\n Graph 2: \n");
 
   Adj_List_Graph<char> adjGraph2("../include/canada.txt");
   adjGraph2.dijkstra('t', 't');
