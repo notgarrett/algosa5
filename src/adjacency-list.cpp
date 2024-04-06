@@ -1,12 +1,6 @@
 /**
  * @file adjacency-list.cpp
  * @author Lilith Moon
- * @brief
- * @version 0.1
- * @date 2024-03-31
- *
- * @copyright Copyright (c) 2024
- *
  */
 #include <fstream>
 #include <math.h>

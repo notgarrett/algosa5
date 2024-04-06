@@ -24,7 +24,7 @@ int main()
 
   // * Loop
 
-  std::cout << "My input files are slightly modified. Here are the paths to enter:" << std::endl;
+  std::cout << "Our input files are slightly modified. Here are the paths to enter:" << std::endl;
   std::cout << "\"../include/input-graph.txt\" - Int Keys\n\"../include/canada.txt\" - Char Keys" << std::endl;
 
   std::string filename;
@@ -36,84 +36,76 @@ int main()
     std::cout << "Enter the graph filename: ";
     std::cin >> filename;
 
-    std::cout << "Adj List or Adj Matrix? (L/M): ";
-    std::cin >> implementationChoice;
+    Adj_List_Graph<int> adjGraphInt;
+    Adj_List_Graph<char> adjGraphChar;
 
-    if (implementationChoice == 'L' || implementationChoice == 'l')
+    std::cout << "Are the keys in the graph integers or characters? (I/C): ";
+    std::cin >> keyChoice;
+
+    if (keyChoice == 'I' || keyChoice == 'i')
     {
-      Adj_List_Graph<int> adjGraphInt;
-      Adj_List_Graph<char> adjGraphChar;
-
-      std::cout << "Are the keys in the graph integers or characters? (I/C): ";
-      std::cin >> keyChoice;
-
-      if (keyChoice == 'I' || keyChoice == 'i')
+      if (adjGraphInt.parseFile(filename))
       {
-        if (adjGraphInt.parseFile(filename))
-        {
-          std::cout << "\nVertices in the graph:  ";
-          adjGraphInt.PrintVertexKeys();
-          std::cout << std::endl;
+        std::cout << "\nVertices in the graph:  ";
+        adjGraphInt.PrintVertexKeys();
+        std::cout << std::endl;
 
-          int source, dest;
-          // * Loop for src dest pairs
-          while (true)
-          {
-            std::cout << "Enter source and destination vertices (separated by space): ";
-            std::cin >> source >> dest;
+        int source, dest;
+        // * Loop for src dest pairs
+        while (true)
+        {
+          std::cout << "Enter source and destination vertices (separated by space): ";
+          std::cin >> source >> dest;
 
-            auto start = std::chrono::steady_clock::now();
-            adjGraphInt.dijkstra(source, dest);
-            auto end = std::chrono::steady_clock::now();
-            std::chrono::duration<double> elapsed_seconds = end - start;
-            std::cout << "Time taken to find the shortest path: " << elapsed_seconds.count() << " seconds\n\n";
-          }
-          break;
+          auto start = std::chrono::steady_clock::now();
+          adjGraphInt.dijkstra(source, dest);
+          auto end = std::chrono::steady_clock::now();
+          std::chrono::duration<double> elapsed_seconds = end - start;
+          std::cout << "Time taken to find the shortest path: " << elapsed_seconds.count() << " seconds\n\n";
         }
-        else
-        {
-          std::cout << "Error loading graph from file! Please enter a valid filename.\n";
-        }
-      }
-      else if (keyChoice == 'C' || keyChoice == 'c')
-      {
-        if (adjGraphChar.parseFile(filename))
-        {
-          std::cout << "\nVertices in the graph:  ";
-          adjGraphChar.PrintVertexKeys();
-          std::cout << std::endl;
-          char source, dest;
-          // * Loop for src dest pairs
-          while (true)
-          {
-            std::cout << "Enter source and destination vertices (separated by space): ";
-            std::cin >> source >> dest;
-
-            auto start = std::chrono::steady_clock::now();
-            adjGraphChar.dijkstra(source, dest);
-            auto end = std::chrono::steady_clock::now();
-            std::chrono::duration<double> elapsed_seconds = end - start;
-            std::cout << "Time taken to find the shortest path: " << elapsed_seconds.count() << " seconds\n\n";
-          }
-          break;
-        }
-        else
-        {
-          std::cout << "Error loading graph from file! Please enter a valid filename.\n";
-        }
+        break;
       }
       else
       {
-        std::cout << "Invalid choice! Please enter 'I' for integers or 'C' for characters.\n";
+        std::cout << "Error loading graph from file! Please enter a valid filename.\n";
       }
+
+      // TODO: HERE
+      
     }
-    else if (implementationChoice == 'M' || implementationChoice == 'm')
+    else if (keyChoice == 'C' || keyChoice == 'c')
     {
-      // TODO: Garret you go here
+      if (adjGraphChar.parseFile(filename))
+      {
+        std::cout << "\nVertices in the graph:  ";
+        adjGraphChar.PrintVertexKeys();
+        std::cout << std::endl;
+        char source, dest;
+        // * Loop for src dest pairs
+        while (true)
+        {
+          std::cout << "Enter source and destination vertices (separated by space): ";
+          std::cin >> source >> dest;
+
+          auto start = std::chrono::steady_clock::now();
+          adjGraphChar.dijkstra(source, dest);
+          auto end = std::chrono::steady_clock::now();
+          std::chrono::duration<double> elapsed_seconds = end - start;
+          std::cout << "Time taken to find the shortest path: " << elapsed_seconds.count() << " seconds\n\n";
+        }
+        break;
+      }
+      else
+      {
+        std::cout << "Error loading graph from file! Please enter a valid filename.\n";
+      }
+
+      // TODO: HERE
+    
     }
     else
     {
-      std::cout << "Invalid choice! Please enter 'L' for Adjacency List or 'M' for Adjacency Matrix.\n";
+      std::cout << "Invalid choice! Please enter 'I' for integers or 'C' for characters.\n";
     }
   }
   return 0;
