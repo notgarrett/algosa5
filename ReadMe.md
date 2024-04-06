@@ -12,3 +12,7 @@
 - [4] (10 Marks): Testing and Validation
 - [5] (10 Marks): Follow submission guidelines
 
+## HOW TO RUN
+You can either use 'make' to compile the project or run it in vscode or some other cpp IDE.
+The output prompts you and provides the relative file paths as well as the key type for ease.
+You will then be prompted for 2 keys to dijktra
